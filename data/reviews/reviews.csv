@@ -1,0 +1,31 @@
+case_id,ai_root_cause,ai_confidence,human_decision,human_correction,reviewer_note,timestamp
+VLAN-001,[DEMO FALLBACK] PC2 is assigned to VLAN 1 instead of VLAN 10.,0.85,Edited,Clarified the fix steps based on best practices.,Reviewed as part of batch processing demo.,2026-08-26T21:19:50.756794
+VLAN-002,[DEMO FALLBACK] Uplink port to router is configured as access mode instead of trunk.,0.85,Edited,Clarified the fix steps based on best practices.,Reviewed as part of batch processing demo.,2026-08-26T21:19:50.756874
+VLAN-003,[DEMO FALLBACK] VLAN 20 is missing from the VLAN database on the switch.,0.85,Edited,Clarified the fix steps based on best practices.,Reviewed as part of batch processing demo.,2026-08-26T21:19:50.756902
+VLAN-004,[DEMO FALLBACK] Native VLAN mismatch on the trunk link.,0.85,Rejected,AI misidentified the root cause. Real issue was different.,Reviewed as part of batch processing demo.,2026-08-26T21:19:50.756933
+GW-001,[DEMO FALLBACK] Incorrect default gateway configured on PC1.,0.85,Rejected,AI misidentified the root cause. Real issue was different.,Reviewed as part of batch processing demo.,2026-08-26T21:19:50.757006
+GW-002,[DEMO FALLBACK] Router sub-interface for VLAN 30 is missing an IP address.,0.85,Accepted,,Reviewed as part of batch processing demo.,2026-08-26T21:19:50.757025
+GW-003,[DEMO FALLBACK] Missing default route to the ISP on the router.,0.85,Accepted,,Reviewed as part of batch processing demo.,2026-08-26T21:19:50.757045
+GW-004,[DEMO FALLBACK] Default Gateway missing on the host.,0.85,Accepted,,Reviewed as part of batch processing demo.,2026-08-26T21:19:50.757064
+DHCP-001,[DEMO FALLBACK] DHCP pool exhausted.,0.85,Accepted,,Reviewed as part of batch processing demo.,2026-08-26T21:19:50.757081
+DHCP-002,[DEMO FALLBACK] Missing ip helper-address command on the router interface.,0.85,Accepted,,Reviewed as part of batch processing demo.,2026-08-26T21:19:50.757101
+DHCP-003,[DEMO FALLBACK] DHCP server is attempting to assign the gateway IP because excluded addresses are not configured.,0.85,Accepted,,Reviewed as part of batch processing demo.,2026-08-26T21:19:50.757118
+DHCP-004,[DEMO FALLBACK] DHCP pool configured with incorrect subnet mask (/25 instead of /24).,0.85,Accepted,,Reviewed as part of batch processing demo.,2026-08-26T21:19:50.757136
+DNS-001,[DEMO FALLBACK] DNS server address is missing in PC IP configuration.,0.85,Accepted,,Reviewed as part of batch processing demo.,2026-08-26T21:19:50.757152
+DNS-002,[DEMO FALLBACK] ip domain-lookup is disabled globally on the router.,0.85,Accepted,,Reviewed as part of batch processing demo.,2026-08-26T21:19:50.757169
+DNS-003,[DEMO FALLBACK] DNS server option missing from DHCP pool configuration.,0.85,Accepted,,Reviewed as part of batch processing demo.,2026-08-26T21:19:50.757184
+ROUT-001,[DEMO FALLBACK] MTU mismatch on interfaces participating in OSPF.,0.85,Accepted,,Reviewed as part of batch processing demo.,2026-08-26T21:19:50.757199
+ROUT-002,[DEMO FALLBACK] Missing OSPF network command for the link connecting to R2.,0.85,Accepted,,Reviewed as part of batch processing demo.,2026-08-26T21:19:50.757214
+ROUT-003,[DEMO FALLBACK] EIGRP K-values mismatch between routers.,0.85,Accepted,,Reviewed as part of batch processing demo.,2026-08-26T21:19:50.757231
+ROUT-004,[DEMO FALLBACK] Static route is configured with the wrong next-hop IP.,0.85,Accepted,,Reviewed as part of batch processing demo.,2026-08-26T21:19:50.757248
+ROUT-005,[DEMO FALLBACK] Passive-interface is configured on the link connecting to the neighbor.,0.85,Accepted,,Reviewed as part of batch processing demo.,2026-08-26T21:19:50.757265
+ACL-001,[DEMO FALLBACK] ACL is explicitly denying HTTP traffic to the web server.,0.85,Accepted,,Reviewed as part of batch processing demo.,2026-08-26T21:19:50.757281
+ACL-002,[DEMO FALLBACK] Access-class ACL does not permit the management PC IP.,0.85,Accepted,,Reviewed as part of batch processing demo.,2026-08-26T21:19:50.757298
+ACL-003,[DEMO FALLBACK] Implicit deny at the end of the ACL blocks all other traffic.,0.85,Accepted,,Reviewed as part of batch processing demo.,2026-08-26T21:19:50.757313
+ACL-004,[DEMO FALLBACK] ACL is applied in the wrong direction (out instead of in).,0.85,Accepted,,Reviewed as part of batch processing demo.,2026-08-26T21:19:50.757329
+NAT-001,[DEMO FALLBACK] The 'ip nat inside' command is missing on the Gi0/0 interface.,0.85,Accepted,,Reviewed as part of batch processing demo.,2026-08-26T21:19:50.757346
+NAT-002,[DEMO FALLBACK] The 'overload' keyword is missing in the NAT statement.,0.85,Accepted,,Reviewed as part of batch processing demo.,2026-08-26T21:19:50.757361
+NAT-003,[DEMO FALLBACK] Static NAT is mapped to the wrong inside local IP (.10 instead of .100).,0.85,Accepted,,Reviewed as part of batch processing demo.,2026-08-26T21:19:50.757380
+NAT-004,[DEMO FALLBACK] NAT pool is exhausted and PAT (overload) is not configured.,0.85,Accepted,,Reviewed as part of batch processing demo.,2026-08-26T21:19:50.757396
+WIFI-001,"[DEMO FALLBACK] SSID mismatch (configured as CorpNet_5G, laptop searching for CorpNet).",0.85,Accepted,,Reviewed as part of batch processing demo.,2026-08-26T21:19:50.757411
+WIFI-002,[DEMO FALLBACK] Incorrect WPA2 Pre-Shared Key entered on the client.,0.85,Accepted,,Reviewed as part of batch processing demo.,2026-08-26T21:19:50.757443

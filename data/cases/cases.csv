@@ -1,0 +1,136 @@
+case_id,symptom,topology_note,show_command_outputs,expected_fault,osi_layer,concept_tag,severity
+VLAN-001,"PC1 cannot ping PC2. They are on the same switch and subnet (192.168.10.0/24).","PC1 on Fa0/1, PC2 on Fa0/2. Both should be in VLAN 10.","Switch#show vlan brief
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+1    default                          active    Fa0/2, Fa0/3
+10   Sales                            active    Fa0/1","PC2 is assigned to VLAN 1 instead of VLAN 10.","Layer 2","VLAN","Medium"
+VLAN-002,"PCs in VLAN 20 cannot reach the router.","Switch is connected to Router via Gi0/1. Router provides inter-VLAN routing (router-on-a-stick) for VLANs 10 and 20.","Switch#show interfaces Gi0/1 switchport
+Name: Gi0/1
+Switchport: Enabled
+Administrative Mode: static access
+Operational Mode: static access
+Access Mode VLAN: 1 (default)","Uplink port to router is configured as access mode instead of trunk.","Layer 2","VLAN","High"
+VLAN-003,"Inter-VLAN routing is failing between VLAN 10 and VLAN 20.","Router-on-a-stick topology. Router Gi0/0 is connected to Switch Gi0/1.","Router#show ip interface brief
+Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0.10  192.168.10.1    YES manual up                    up
+GigabitEthernet0/0.20  192.168.20.1    YES manual up                    up
+Switch#show vlan brief
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+1    default                          active    
+10   Sales                            active    Fa0/1","VLAN 20 is missing from the VLAN database on the switch.","Layer 2","VLAN","Medium"
+VLAN-004,"CDP errors reported on switch console.","Switch1 Gi0/1 connected to Switch2 Gi0/1 via trunk.","Switch1#show interfaces trunk
+Port        Mode             Encapsulation  Status        Native vlan
+Gi0/1       on               802.1q         trunking      99
+Switch2#show interfaces trunk
+Port        Mode             Encapsulation  Status        Native vlan
+Gi0/1       on               802.1q         trunking      1","Native VLAN mismatch on the trunk link.","Layer 2","VLAN","Low"
+GW-001,"PC1 can ping other PCs in the same subnet but cannot ping 8.8.8.8.","PC1 is at 10.0.0.10/24, Router gateway is 10.0.0.1.","C:\>ipconfig
+   IPv4 Address. . . . . . . . . . . : 10.0.0.10
+   Subnet Mask . . . . . . . . . . . : 255.255.255.0
+   Default Gateway . . . . . . . . . : 10.0.0.2","Incorrect default gateway configured on PC1.","Layer 3","Gateway","Medium"
+GW-002,"No hosts in VLAN 30 can access the Internet.","Router provides inter-VLAN routing.","Router#show ip interface brief
+Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0.10  192.168.10.1    YES manual up                    up
+GigabitEthernet0/0.30  unassigned      YES unset  up                    up","Router sub-interface for VLAN 30 is missing an IP address.","Layer 3","Gateway","High"
+GW-003,"Router cannot ping internet addresses, but LAN works.","Router connected to ISP.","Router#show ip route
+C    192.168.1.0/24 is directly connected, GigabitEthernet0/1
+C    10.0.0.0/30 is directly connected, GigabitEthernet0/0","Missing default route to the ISP on the router.","Layer 3","Gateway","High"
+GW-004,"Host can ping gateway IP but cannot reach remote networks.","Host subnet is 172.16.1.0/24. Router LAN is 172.16.1.254.","C:\>ipconfig
+   IPv4 Address. . . . . . . . . . . : 172.16.1.50
+   Subnet Mask . . . . . . . . . . . : 255.255.255.0
+   Default Gateway . . . . . . . . . : 0.0.0.0","Default Gateway missing on the host.","Layer 3","Gateway","Medium"
+DHCP-001,"New PCs cannot get an IP address.","Router acts as DHCP server for 192.168.1.0/24. Network has 250 hosts.","Router#show ip dhcp pool
+Pool LAN_POOL :
+ Utilization mark (high/low)    : 100 / 0
+ Subnet size (first/next)       : 0 / 0 
+ Total addresses                : 254
+ Leased addresses               : 254
+ Excluded addresses             : 0","DHCP pool exhausted.","Layer 7","DHCP","Medium"
+DHCP-002,"PCs in VLAN 10 receive APIPA (169.254.x.x) addresses.","DHCP server is at 10.1.1.10 in VLAN 100. Router does routing.","Router#show run interface Gi0/0.10
+interface GigabitEthernet0/0.10
+ encapsulation dot1Q 10
+ ip address 192.168.10.1 255.255.255.0","Missing ip helper-address command on the router interface.","Layer 3","DHCP","High"
+DHCP-003,"DHCP conflict detected in syslog.","Router acts as DHCP server for 10.0.0.0/24. Gateway is 10.0.0.1.","Router#show ip dhcp conflict
+IP address        Detection method   Detection time
+10.0.0.1          Ping               Mar 01 2026 10:00 AM
+Router#show run | inc ip dhcp excluded
+Router#","DHCP server is attempting to assign the gateway IP because excluded addresses are not configured.","Layer 7","DHCP","Medium"
+DHCP-004,"PCs get IP addresses but can't ping PCs above .128 in same network.","Subnet is designed as 192.168.2.0/24.","C:\>ipconfig
+   IPv4 Address. . . . . . . . . . . : 192.168.2.50
+   Subnet Mask . . . . . . . . . . . : 255.255.255.128
+   Default Gateway . . . . . . . . . : 192.168.2.1","DHCP pool configured with incorrect subnet mask (/25 instead of /24).","Layer 3","DHCP","Medium"
+DNS-001,"PC can ping 8.8.8.8 but cannot browse www.google.com.","PC is statically configured.","C:\>ping www.google.com
+Ping request could not find host www.google.com. Please check the name and try again.
+C:\>ipconfig /all
+   IPv4 Address. . . . . . . . . . . : 192.168.1.10
+   DNS Servers . . . . . . . . . . . : ","DNS server address is missing in PC IP configuration.","Layer 7","DNS","Medium"
+DNS-002,"Router cannot ping servers by hostname.","Router is configured with name server 8.8.8.8.","Router#ping server1.cisco.com
+Translating ""server1.cisco.com""...domain server (8.8.8.8)
+% Unrecognized host or address, or protocol not running.
+Router#show run | inc ip domain
+no ip domain-lookup","ip domain-lookup is disabled globally on the router.","Layer 7","DNS","Low"
+DNS-003,"Hosts receive DHCP properly but cannot resolve names.","Router acts as DHCP. DNS Server is at 8.8.8.8.","Router#show run | sec dhcp pool
+ip dhcp pool LAN
+ network 10.1.1.0 255.255.255.0
+ default-router 10.1.1.1","DNS server option missing from DHCP pool configuration.","Layer 7","DNS","Medium"
+ROUT-001,"OSPF neighbor relationship is stuck in EXSTART.","R1 connected to R2 via GigabitEthernet links.","R1#show interfaces Gi0/0 | inc MTU
+  MTU 1500 bytes
+R2#show interfaces Gi0/0 | inc MTU
+  MTU 1400 bytes","MTU mismatch on interfaces participating in OSPF.","Layer 3","Routing","High"
+ROUT-002,"R1 is not forming an OSPF neighbor relationship with R2.","R1 Gi0/0 (10.0.0.1/30) connected to R2 Gi0/0 (10.0.0.2/30).","R1#show run | sec router ospf
+router ospf 1
+ network 192.168.1.0 0.0.0.255 area 0","Missing OSPF network command for the link connecting to R2.","Layer 3","Routing","High"
+ROUT-003,"EIGRP neighbors flapping continuously.","R1 and R2 connected via WAN link.","R1#show log
+%DUAL-5-NBRCHANGE: EIGRP-IPv4 100: Neighbor 10.1.1.2 (GigabitEthernet0/0) is down: K-value mismatch","EIGRP K-values mismatch between routers.","Layer 3","Routing","Medium"
+ROUT-004,"Static route fails to forward traffic to remote network.","R1 needs to reach 10.5.5.0/24 via next hop 192.168.12.2.","R1#show ip route
+S    10.5.5.0/24 [1/0] via 192.168.12.3","Static route is configured with the wrong next-hop IP.","Layer 3","Routing","High"
+ROUT-005,"R2 is not receiving RIP routes from R1.","R1 and R2 running RIPv2. Connected via Gi0/0.","R1#show run | sec router rip
+router rip
+ version 2
+ passive-interface GigabitEthernet0/0","Passive-interface is configured on the link connecting to the neighbor.","Layer 3","Routing","Medium"
+ACL-001,"Users cannot access the internal web server on port 80.","Web server IP is 192.168.1.100. Router applies ACL 100 inward on LAN interface.","Router#show access-lists 100
+Extended IP access list 100
+    10 deny tcp any host 192.168.1.100 eq www (25 matches)
+    20 permit ip any any (500 matches)","ACL is explicitly denying HTTP traffic to the web server.","Layer 4","ACL","High"
+ACL-002,"Admin cannot SSH into the router from the management PC.","Management PC is 10.1.1.50.","Router#show run | sec line vty
+line vty 0 4
+ access-class 10 in
+Router#show access-lists 10
+Standard IP access list 10
+    10 permit 10.1.1.100","Access-class ACL does not permit the management PC IP.","Layer 4","ACL","High"
+ACL-003,"All traffic from VLAN 10 to the Internet is dropped.","ACL 101 applied inbound on VLAN 10 sub-interface.","Router#show run interface Gi0/0.10
+interface GigabitEthernet0/0.10
+ ip access-group 101 in
+Router#show access-lists 101
+Extended IP access list 101
+    10 permit tcp 192.168.10.0 0.0.0.255 host 10.0.0.5 eq 443 (20 matches)","Implicit deny at the end of the ACL blocks all other traffic.","Layer 3","ACL","High"
+ACL-004,"ACL applied to block incoming telnet from users, but telnet still works.","Users connect to Gi0/0. ACL 102 is applied to Gi0/0.","Router#show run interface Gi0/0
+ ip access-group 102 out
+Router#show access-lists 102
+    10 deny tcp any any eq telnet
+    20 permit ip any any","ACL is applied in the wrong direction (out instead of in).","Layer 4","ACL","Medium"
+NAT-001,"Internal users cannot browse the internet using NAT overload.","Router Gi0/0 is inside, Gi0/1 is outside connected to ISP.","Router#show run interface Gi0/0
+interface GigabitEthernet0/0
+ ip address 192.168.1.1 255.255.255.0
+Router#show run interface Gi0/1
+ ip nat outside","The 'ip nat inside' command is missing on the Gi0/0 interface.","Layer 3","NAT","High"
+NAT-002,"Only one internal user can access the internet at a time.","PAT is intended for the internal network 192.168.1.0/24.","Router#show run | inc ip nat inside source
+ip nat inside source list 1 interface GigabitEthernet0/1","The 'overload' keyword is missing in the NAT statement.","Layer 4","NAT","High"
+NAT-003,"External users cannot reach the internal web server via public IP.","Web server internal IP is 192.168.1.100. Public IP is 203.0.113.5.","Router#show run | inc ip nat inside source static
+ip nat inside source static 192.168.1.10 203.0.113.5","Static NAT is mapped to the wrong inside local IP (.10 instead of .100).","Layer 3","NAT","High"
+NAT-004,"NAT translations failing dynamically.","Dynamic NAT pool configured with 5 IPs for a network of 50 users.","Router#show ip nat statistics
+Total active translations: 5 (0 static, 5 dynamic; 0 extended)
+Router#show run | inc ip nat inside source
+ip nat inside source list 1 pool PUBLIC_IPS","NAT pool is exhausted and PAT (overload) is not configured.","Layer 3","NAT","Medium"
+WIFI-001,"Laptop cannot see or connect to the corporate Wi-Fi.","WLC configured. Laptop is trying to connect to 'CorpNet'.","WLC> show wlan 1
+Profile Name: Corp_Network
+Network Name (SSID): CorpNet_5G
+Status: Enabled","SSID mismatch (configured as CorpNet_5G, laptop searching for CorpNet).","Layer 2","Wireless","Medium"
+WIFI-002,"Laptop sees SSID but authentication repeatedly fails.","WPA2-PSK is used for authentication. Laptop MAC is 00:11:22:33:44:55.","WLC> show client detail 00:11:22:33:44:55
+Client MAC Address............................... 00:11:22:33:44:55
+Client IP Address................................ Unknown
+WLAN ID.......................................... 1
+WLAN Network Name (SSID)......................... CorpNet_5G
+Policy Manager State............................. 802.1x Authentication
+802.1x Authentication............................ Failed - Incorrect PSK","Incorrect WPA2 Pre-Shared Key entered on the client.","Layer 2","Wireless","High"

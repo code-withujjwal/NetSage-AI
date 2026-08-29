@@ -1,0 +1,43 @@
+{
+  "case_id": "VLAN-001",
+  "checks": [
+    {
+      "check": "Duplicate IP addresses",
+      "status": "NOT_DETERMINED",
+      "evidence": "",
+      "explanation": "No duplicate IP warnings found."
+    },
+    {
+      "check": "Wrong subnet mask",
+      "status": "NOT_DETERMINED",
+      "evidence": "",
+      "explanation": "Insufficient evidence to determine if mask is wrong."
+    },
+    {
+      "check": "Gateway mismatch",
+      "status": "NOT_DETERMINED",
+      "evidence": "",
+      "explanation": "Requires cross-device topology context, which cannot be definitively proven by static text analysis."
+    },
+    {
+      "check": "Interface administratively down",
+      "status": "NOT_DETERMINED",
+      "evidence": "",
+      "explanation": "No shut down interfaces detected."
+    },
+    {
+      "check": "Missing VLAN",
+      "status": "NOT_DETERMINED",
+      "evidence": "",
+      "explanation": "Could not definitively prove a missing VLAN."
+    },
+    {
+      "check": "Missing route",
+      "status": "NOT_DETERMINED",
+      "evidence": "",
+      "explanation": "No definitive missing route evidence found."
+    }
+  ],
+  "issues_found": 0,
+  "summary": "Found 0 deterministic configuration issue(s)."
+}
