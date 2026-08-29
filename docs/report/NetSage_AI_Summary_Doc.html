@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>NetSage AI – Project Summary Document</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #fff;
+    color: #1a1a2e;
+    line-height: 1.7;
+    font-size: 11pt;
+  }
+
+  /* PRINT STYLES */
+  @media print {
+    body { font-size: 10.5pt; }
+    .no-print { display: none !important; }
+    .page-break { page-break-before: always; }
+    .header-bar { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+    .section-label { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+    .tech-tag { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+    .badge { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+    .contribution-item { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+    .highlight-box { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+    .arch-step { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  }
+
+  /* PRINT BUTTON */
+  .print-btn {
+    position: fixed; top: 20px; right: 20px;
+    background: #0052cc; color: white;
+    border: none; border-radius: 8px;
+    padding: 12px 24px; font-size: 0.9rem;
+    font-weight: 600; cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,82,204,0.3);
+    z-index: 999;
+    font-family: 'Inter', sans-serif;
+  }
+  .print-btn:hover { background: #003d99; }
+
+  /* PAGE LAYOUT */
+  .page {
+    max-width: 210mm;
+    margin: 0 auto;
+    padding: 0;
+    background: #fff;
+  }
+
+  /* HEADER BAR */
+  .header-bar {
+    background: linear-gradient(135deg, #0052cc 0%, #00b4d8 50%, #6a0dad 100%);
+    padding: 32px 48px 28px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+  .header-bar::before {
+    content: '';
+    position: absolute; top: -50px; right: -50px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.07);
+  }
+  .header-bar::after {
+    content: '';
+    position: absolute; bottom: -30px; left: 200px;
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+  }
+  .doc-type {
+    font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase;
+    opacity: 0.75; margin-bottom: 10px; font-weight: 600;
+  }
+  .project-title {
+    font-size: 28pt; font-weight: 900; line-height: 1.1;
+    letter-spacing: -1px; margin-bottom: 6px;
+  }
+  .project-title span { opacity: 0.6; }
+  .project-subtitle {
+    font-size: 11pt; opacity: 0.8; margin-bottom: 20px;
+    font-weight: 400;
+  }
+  .header-meta {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px; margin-top: 20px;
+  }
+  .meta-item { font-size: 0.78rem; }
+  .meta-label { opacity: 0.6; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; font-size: 0.65rem; }
+  .meta-value { font-weight: 600; margin-top: 2px; }
+  .cisco-stamp {
+    position: absolute; top: 20px; right: 48px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 8px; padding: 8px 14px;
+    font-size: 0.7rem; font-weight: 600;
+    letter-spacing: 1px; text-transform: uppercase;
+  }
+
+  /* BODY CONTENT */
+  .content { padding: 36px 48px; }
+
+  /* SECTION */
+  .section { margin-bottom: 28px; }
+  .section-label {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: #f0f4ff; border-left: 3px solid #0052cc;
+    padding: 6px 14px; border-radius: 0 6px 6px 0;
+    font-size: 0.72rem; font-weight: 700; color: #0052cc;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  h2 {
+    font-size: 14pt; font-weight: 800; color: #0d1b2a;
+    margin-bottom: 10px; letter-spacing: -0.5px;
+  }
+  h3 {
+    font-size: 11pt; font-weight: 700; color: #0052cc;
+    margin-bottom: 8px; margin-top: 14px;
+  }
+  p { margin-bottom: 10px; color: #2d3748; }
+
+  ul, ol { padding-left: 20px; margin-bottom: 10px; }
+  li { margin-bottom: 6px; color: #2d3748; }
+  li strong { color: #0d1b2a; }
+
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, #0052cc22, #0052cc44, #0052cc22);
+    margin: 24px 0;
+  }
+
+  /* HIGHLIGHT BOX */
+  .highlight-box {
+    background: #f0f7ff;
+    border: 1px solid #b3d4ff;
+    border-left: 4px solid #0052cc;
+    border-radius: 0 8px 8px 0;
+    padding: 16px 20px;
+    margin-bottom: 16px;
+  }
+  .highlight-box p { margin: 0; color: #1a3a5c; }
+
+  /* ARCHITECTURE STEPS */
+  .arch-steps {
+    display: flex; gap: 0; margin: 16px 0;
+    align-items: stretch;
+  }
+  .arch-step {
+    flex: 1; text-align: center; padding: 14px 10px;
+    position: relative;
+  }
+  .arch-step:nth-child(1) { background: #eef4ff; border-radius: 8px 0 0 8px; }
+  .arch-step:nth-child(2) { background: #fff7ed; }
+  .arch-step:nth-child(3) { background: #f0fdf4; }
+  .arch-step:nth-child(4) { background: #faf0ff; }
+  .arch-step:nth-child(5) { background: #f0f9ff; border-radius: 0 8px 8px 0; }
+  .arch-step .step-num {
+    font-size: 1.4rem; margin-bottom: 4px; display: block;
+  }
+  .arch-step .step-name {
+    font-size: 0.72rem; font-weight: 700; color: #0d1b2a;
+    line-height: 1.3; display: block;
+  }
+  .arch-step .step-tech {
+    font-size: 0.62rem; color: #6b7280; margin-top: 2px; display: block;
+  }
+  .arch-arrow-between {
+    display: flex; align-items: center; color: #94a3b8;
+    font-size: 1rem; flex-shrink: 0; padding: 0 2px;
+  }
+
+  /* TECH TAGS */
+  .tech-tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+  .tech-tag {
+    background: #0052cc; color: white;
+    padding: 4px 12px; border-radius: 100px;
+    font-size: 0.72rem; font-weight: 600;
+  }
+  .tech-tag.secondary {
+    background: #f0f4ff; color: #0052cc;
+    border: 1px solid #b3d4ff;
+  }
+
+  /* RESULTS TABLE */
+  .results-table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 0.85rem; }
+  .results-table th { background: #0052cc; color: white; padding: 8px 14px; text-align: left; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.5px; }
+  .results-table td { padding: 8px 14px; border-bottom: 1px solid #e5e7eb; }
+  .results-table tr:nth-child(even) td { background: #f8faff; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.68rem; font-weight: 700; }
+  .badge.accepted { background: #dcfce7; color: #15803d; }
+  .badge.edited { background: #fff7ed; color: #c2410c; }
+  .badge.rejected { background: #fef2f2; color: #dc2626; }
+
+  /* CONTRIBUTION SECTION */
+  .contribution-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 12px; }
+  .contribution-item {
+    background: #f8faff; border: 1px solid #dbeafe;
+    border-radius: 8px; padding: 14px;
+  }
+  .contribution-item .contrib-title {
+    font-weight: 700; font-size: 0.82rem; color: #0052cc; margin-bottom: 6px;
+  }
+  .contribution-item .contrib-text {
+    font-size: 0.78rem; color: #374151; line-height: 1.6;
+  }
+
+  /* TEAM SECTION */
+  .team-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 12px; }
+  .team-card {
+    border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px;
+    background: #fafafa;
+  }
+  .team-name { font-weight: 800; font-size: 11pt; margin-bottom: 2px; }
+  .team-role { font-size: 0.78rem; color: #0052cc; font-weight: 600; margin-bottom: 8px; }
+  .team-id { font-size: 0.7rem; color: #9ca3af; font-family: 'JetBrains Mono', monospace; margin-bottom: 8px; }
+  .team-contribs { font-size: 0.75rem; color: #4b5563; line-height: 1.8; }
+
+  /* FOOTER */
+  .footer {
+    background: #0d1b2a; color: #94a3b8;
+    padding: 16px 48px;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.72rem;
+  }
+  .footer strong { color: #60a5fa; }
+
+  /* STATS ROW */
+  .stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin: 16px 0; }
+  .stat-box {
+    background: #f8faff; border: 1px solid #dbeafe;
+    border-radius: 8px; padding: 14px 10px; text-align: center;
+  }
+  .stat-num { font-size: 20pt; font-weight: 900; color: #0052cc; display: block; letter-spacing: -1px; }
+  .stat-lbl { font-size: 0.65rem; color: #6b7280; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+
+  code {
+    font-family: 'JetBrains Mono', monospace;
+    background: #f1f5f9; padding: 1px 5px;
+    border-radius: 3px; font-size: 0.85em; color: #0052cc;
+  }
+</style>
+</head>
+<body>
+
+<button class="print-btn no-print" onclick="window.print()">⬇ Save as PDF</button>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header-bar">
+    <div class="cisco-stamp">Cisco AICTE VIP 2026</div>
+    <div class="doc-type">Industry Problem Statement — Project Summary Document</div>
+    <div class="project-title">NetSage <span>AI</span></div>
+    <div class="project-subtitle">AI-Assisted Network Troubleshooting System · Networking Track</div>
+    <div class="header-meta">
+      <div class="meta-item">
+        <div class="meta-label">Student</div>
+        <div class="meta-value">Ujjwal Pandey</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">AICTE ID</div>
+        <div class="meta-value">STU69f279047b0211777498372</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Institution</div>
+        <div class="meta-value">LNCT Bhopal · CSE · Sem 4</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- SECTION 1: EXECUTIVE SUMMARY -->
+    <div class="section">
+      <div class="section-label">01 · Executive Summary</div>
+      <div class="highlight-box">
+        <p><strong>NetSage AI</strong> is an advanced, AI-assisted network troubleshooting engine designed to accelerate fault isolation and resolution in enterprise environments. The system leverages <strong>Google Gemini</strong> to process symptom descriptions, network topologies, and Cisco <code>show</code> command evidence to generate accurate, actionable diagnoses — all governed by a strict <strong>human-in-the-loop review workflow</strong> and Responsible AI framework.</p>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-box"><span class="stat-num">30</span><span class="stat-lbl">Troubleshooting Cases</span></div>
+        <div class="stat-box"><span class="stat-num">8</span><span class="stat-lbl">Network Domains</span></div>
+        <div class="stat-box"><span class="stat-num">92%</span><span class="stat-lbl">Avg AI Confidence</span></div>
+        <div class="stat-box"><span class="stat-num">100%</span><span class="stat-lbl">Human Review Coverage</span></div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- SECTION 2: PROBLEM STATEMENT -->
+    <div class="section">
+      <div class="section-label">02 · Problem Statement</div>
+      <p>Identifying root causes of network disruptions involves manually parsing extensive device logs and configuration outputs. Junior engineers frequently struggle to correlate symptoms (e.g., unreachable gateways) with the underlying CLI evidence (e.g., misconfigured VLANs or missing ACLs). Relying solely on manual analysis increases MTTR and operational overhead. Conversely, relying entirely on unfiltered generative AI introduces the risk of <strong>"hallucinations"</strong> and unverified configuration changes.</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- SECTION 3: OBJECTIVES -->
+    <div class="section">
+      <div class="section-label">03 · Objectives</div>
+      <ul>
+        <li><strong>Accelerate Fault Diagnosis:</strong> Build an AI pipeline capable of rapidly analyzing Cisco <code>show</code> command outputs to identify network faults.</li>
+        <li><strong>Ensure Deterministic Reliability:</strong> Implement pre-screening rule checks to statically validate common misconfigurations prior to AI processing.</li>
+        <li><strong>Maintain Responsible AI Standards:</strong> Enforce a strict human-in-the-loop workflow where all AI-generated diagnoses are treated as advisory and require human review.</li>
+        <li><strong>Provide Actionable Insights:</strong> Present diagnosis, evidence, and review logs in an interactive, user-friendly Streamlit dashboard.</li>
+      </ul>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- SECTION 4: SYSTEM ARCHITECTURE -->
+    <div class="section">
+      <div class="section-label">04 · System Architecture</div>
+
+      <div class="arch-steps">
+        <div class="arch-step">
+          <span class="step-num">🖥️</span>
+          <span class="step-name">Streamlit Dashboard</span>
+          <span class="step-tech">Frontend / UI</span>
+        </div>
+        <div class="arch-arrow-between">→</div>
+        <div class="arch-step">
+          <span class="step-num">⚡</span>
+          <span class="step-name">FastAPI Backend</span>
+          <span class="step-tech">REST API + Pydantic</span>
+        </div>
+        <div class="arch-arrow-between">→</div>
+        <div class="arch-step">
+          <span class="step-num">🛡️</span>
+          <span class="step-name">Rule Checker</span>
+          <span class="step-tech">Deterministic / Regex</span>
+        </div>
+        <div class="arch-arrow-between">→</div>
+        <div class="arch-step">
+          <span class="step-num">🧠</span>
+          <span class="step-name">Gemini AI Engine</span>
+          <span class="step-tech">Google Gemini SDK</span>
+        </div>
+        <div class="arch-arrow-between">→</div>
+        <div class="arch-step">
+          <span class="step-num">👤</span>
+          <span class="step-name">Human Review + RAI Log</span>
+          <span class="step-tech">Accept / Edit / Reject</span>
+        </div>
+      </div>
+
+      <p>NetSage AI follows a <strong>modular, decoupled architecture</strong> with five layers:</p>
+      <ol>
+        <li><strong>Frontend (Streamlit):</strong> Interactive dashboard for case metrics, AI performance, and the review audit trail.</li>
+        <li><strong>Backend (FastAPI):</strong> High-performance REST API that orchestrates incoming case requests.</li>
+        <li><strong>Deterministic Rule Checker:</strong> Python-based regex validation that scans evidence for explicit configuration violations.</li>
+        <li><strong>AI Diagnosis Engine (Google Gemini):</strong> Generative AI module with strict system prompts and Pydantic-validated structured JSON output.</li>
+        <li><strong>Human Review / RAI Logger:</strong> Governance module that logs human decisions alongside AI confidence scores.</li>
+      </ol>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- SECTION 5: TECH STACK -->
+    <div class="section">
+      <div class="section-label">05 · Technology Stack</div>
+      <div class="tech-tags">
+        <span class="tech-tag">Python</span>
+        <span class="tech-tag">FastAPI</span>
+        <span class="tech-tag">Google Gemini</span>
+        <span class="tech-tag">Streamlit</span>
+        <span class="tech-tag">Pydantic</span>
+        <span class="tech-tag">Cisco Packet Tracer</span>
+        <span class="tech-tag secondary">google-genai SDK</span>
+        <span class="tech-tag secondary">Regex / Rule Engine</span>
+        <span class="tech-tag secondary">CSV Audit Logging</span>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- SECTION 6: DATASET -->
+    <div class="section">
+      <div class="section-label">06 · Dataset Design</div>
+      <p>A robust, custom dataset of <strong>30 networking troubleshooting scenarios</strong> was developed. Each case includes a realistic symptom description, topology context, and evidence-grounded Cisco <code>show</code> command outputs. Domains covered:</p>
+      <div class="tech-tags">
+        <span class="tech-tag secondary">VLANs &amp; Trunking</span>
+        <span class="tech-tag secondary">Static &amp; Dynamic Routing</span>
+        <span class="tech-tag secondary">DHCP Configurations</span>
+        <span class="tech-tag secondary">DNS Resolution</span>
+        <span class="tech-tag secondary">NAT</span>
+        <span class="tech-tag secondary">ACLs</span>
+        <span class="tech-tag secondary">Default Gateway</span>
+        <span class="tech-tag secondary">Wireless Networking</span>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- SECTION 7: HYBRID WORKFLOW -->
+    <div class="section">
+      <div class="section-label">07 · Hybrid Analysis Workflow</div>
+      <h3>7.1 Deterministic Rule Validation</h3>
+      <p>Incoming cases are first processed by a deterministic rule-checking algorithm using <strong>regex-based static analysis</strong> to identify glaring misconfigurations — such as subnet mask mismatches or administratively down interfaces — providing a highly reliable, zero-hallucination baseline.</p>
+
+      <h3>7.2 AI Diagnosis Workflow</h3>
+      <p>Cases requiring deeper logical correlation are processed by <strong>Google Gemini</strong>. The AI is constrained by a highly structured system prompt, instructing it to act as a senior network engineer. It is strictly mandated to base conclusions entirely on the provided CLI evidence, outputting a structured JSON response containing: root cause, suggested fix commands, and a calculated confidence score.</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- SECTION 8: RESPONSIBLE AI -->
+    <div class="section">
+      <div class="section-label">08 · Responsible AI Framework</div>
+      <ul>
+        <li><strong>Human Oversight:</strong> AI outputs are strictly advisory. Operators must Accept, Edit, or Reject every diagnosis before any fix is applied.</li>
+        <li><strong>Audit Logging:</strong> Every interaction is recorded in <code>responsible_ai_log.csv</code>, tracking AI uncertainty and human corrections.</li>
+        <li><strong>Evidence-Based Constraints:</strong> The AI outputs "Insufficient Evidence" if <code>show</code> commands do not prove a fault.</li>
+      </ul>
+
+      <table class="results-table">
+        <thead>
+          <tr><th>Case ID</th><th>Concept</th><th>AI Diagnosis</th><th>Confidence</th><th>Human Decision</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>VLAN-001</code></td><td>VLAN</td><td>Fa0/2 in VLAN 1 instead of VLAN 10</td><td>92%</td><td><span class="badge accepted">Accepted</span></td></tr>
+          <tr><td><code>DHCP-003</code></td><td>DHCP</td><td>DHCP pool exhausted, 0 addresses</td><td>88%</td><td><span class="badge edited">Edited</span></td></tr>
+          <tr><td><code>GW-001</code></td><td>Gateway</td><td>Default GW 192.168.1.1 subnet mismatch</td><td>95%</td><td><span class="badge accepted">Accepted</span></td></tr>
+          <tr><td><code>ACL-002</code></td><td>ACL</td><td>Permit/deny order blocking HTTP traffic</td><td>74%</td><td><span class="badge rejected">Rejected</span></td></tr>
+          <tr><td><code>NAT-001</code></td><td>NAT</td><td>NAT inside interface not configured</td><td>89%</td><td><span class="badge accepted">Accepted</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- SECTION 9: RESULTS -->
+    <div class="section">
+      <div class="section-label">09 · Testing &amp; Results</div>
+      <p>The system successfully processed the 30-case troubleshooting dataset. The hybrid architecture proved highly effective: the deterministic rule checker reliably acted as a safety net for basic configuration flaws, while the Gemini engine accurately diagnosed complex, multi-variable issues. Pydantic validation ensured the AI consistently returned correctly formatted JSON data.</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- SECTION 10: LIMITATIONS -->
+    <div class="section">
+      <div class="section-label">10 · Project Limitations</div>
+      <ul>
+        <li><strong>Packet Tracer Deliverables:</strong> While the text dataset covers 30 cases, only one corresponding Packet Tracer topology (<code>NetSage-AI-VLAN-001.pkt</code>) is provided as a demonstrated simulation artifact.</li>
+        <li><strong>API Constraints:</strong> Intermittent Gemini API quota limitations required deterministic fallback logic. Cases processed by fallback are explicitly labeled <code>[DEMO FALLBACK]</code>.</li>
+        <li><strong>Static Evidence:</strong> The system analyzes static, pre-collected CLI text rather than live SSH connections to networking hardware.</li>
+      </ul>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- SECTION 11: FUTURE SCOPE -->
+    <div class="section">
+      <div class="section-label">11 · Future Scope</div>
+      <ul>
+        <li>Direct <strong>SSH/Netmiko integration</strong> for live <code>show</code> command collection from Cisco devices.</li>
+        <li>Integration of a local, open-source <strong>LLM</strong> to resolve external API quota dependencies and improve data privacy.</li>
+        <li>Expanding the dataset to cover <strong>BGP, MPLS, and SD-WAN</strong> troubleshooting scenarios.</li>
+      </ul>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- SECTION 12: INDIVIDUAL CONTRIBUTION -->
+    <div class="section">
+      <div class="section-label">12 · Individual Contribution</div>
+      <div class="contribution-grid">
+        <div class="contribution-item">
+          <div class="contrib-title">🏗️ System Architecture &amp; Backend</div>
+          <div class="contrib-text">Designed the decoupled 5-layer architecture and implemented the core FastAPI backend logic to handle diagnosis requests via REST endpoints.</div>
+        </div>
+        <div class="contribution-item">
+          <div class="contrib-title">🧠 AI Integration &amp; Prompt Engineering</div>
+          <div class="contrib-text">Structured system prompts and integrated the Google Gemini SDK. Implemented Pydantic data models to enforce strict, parsable JSON outputs from the LLM.</div>
+        </div>
+        <div class="contribution-item">
+          <div class="contrib-title">🛡️ Deterministic Rule Validation</div>
+          <div class="contrib-text">Programmed the Python-based rule-checker with regex validation on networking CLI evidence prior to AI processing, eliminating hallucination risk.</div>
+        </div>
+        <div class="contribution-item">
+          <div class="contrib-title">📊 Dashboard &amp; RAI Implementation</div>
+          <div class="contrib-text">Integrated the Streamlit dashboard and engineered the Responsible AI workflow, ensuring human review actions were correctly tracked and logged to CSV.</div>
+        </div>
+        <div class="contribution-item">
+          <div class="contrib-title">🧪 Testing &amp; Debugging</div>
+          <div class="contrib-text">Led dataset validation, managed API quota fallback logic in <code>batch_diagnose.py</code>, and debugged integration issues across the full stack.</div>
+        </div>
+        <div class="contribution-item">
+          <div class="contrib-title">📁 Dataset Design</div>
+          <div class="contrib-text">Designed and generated 30 evidence-grounded troubleshooting scenarios covering all 8 networking domains with realistic Cisco CLI outputs.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- SECTION 13: TEAM -->
+    <div class="section">
+      <div class="section-label">13 · Team Members</div>
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="team-name">Ujjwal Pandey</div>
+          <div class="team-role">System Architect &amp; AI Engineer</div>
+          <div class="team-id">AICTE ID: STU69f279047b0211777498372</div>
+          <div class="team-contribs">
+            ✦ System Architecture &amp; Design<br/>
+            ✦ AI Integration &amp; Prompt Engineering<br/>
+            ✦ FastAPI Backend Development<br/>
+            ✦ Deterministic Rule Validation<br/>
+            ✦ Dashboard &amp; RAI Implementation<br/>
+            ✦ Testing &amp; Debugging
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="team-name">Udit Raghuwanshi</div>
+          <div class="team-role">Network Validation &amp; QA Engineer</div>
+          <div class="team-id">LNCT Bhopal · CSE · Sem 4</div>
+          <div class="team-contribs">
+            ✦ Network Validation &amp; Verification<br/>
+            ✦ Cisco Packet Tracer Simulation<br/>
+            ✦ Functional Testing &amp; QA<br/>
+            ✦ Documentation Support<br/>
+            ✦ Submission Preparation
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- CONCLUSION -->
+    <div class="section">
+      <div class="section-label">14 · Conclusion</div>
+      <div class="highlight-box">
+        <p>NetSage AI successfully demonstrates the potential of combining <strong>deterministic engineering principles with generative AI</strong> to solve complex networking challenges. By enforcing strict human-in-the-loop oversight and Responsible AI guidelines, the project proves that AI can safely and effectively reduce troubleshooting overhead in modern network operations.</p>
+      </div>
+    </div>
+
+  </div><!-- end content -->
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div>NetSage AI · Cisco AICTE Virtual Internship Program 2026 · <strong>Networking Track</strong></div>
+    <div>Ujjwal Pandey · LNCT Bhopal · <strong>STU69f279047b0211777498372</strong></div>
+  </div>
+
+</div><!-- end page -->
+
+</body>
+</html>
