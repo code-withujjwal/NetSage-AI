@@ -113,7 +113,7 @@ Responsible AI Log
 
 ### Demo Video
 You can view a full interactive demonstration of the dashboard running against the test cases in the video file below:
-[netsage_dashboard_demo_1787999777608.webp](assets/netsage_dashboard_demo_1787999777608.webp)
+![netsage_dashboard_demo.gif](assets/netsage_dashboard_demo.gif)
 
 ## Project Documentation
 
