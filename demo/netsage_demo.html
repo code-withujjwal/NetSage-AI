@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>NetSage AI – Professional Demo Presentation</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg-dark: #050a14;
+    --bg-card: #0d1b2a;
+    --bg-card2: #0a1520;
+    --accent-blue: #00b4ff;
+    --accent-cyan: #00e5ff;
+    --accent-green: #00ff9d;
+    --accent-orange: #ff8c42;
+    --accent-purple: #a259ff;
+    --accent-red: #ff4757;
+    --text-primary: #e8f4fd;
+    --text-secondary: #7a9bb5;
+    --border: rgba(0,180,255,0.15);
+    --glow-blue: 0 0 30px rgba(0,180,255,0.3);
+    --glow-green: 0 0 30px rgba(0,255,157,0.3);
+    --glow-purple: 0 0 30px rgba(162,89,255,0.3);
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg-dark);
+    color: var(--text-primary);
+    overflow-x: hidden;
+  }
+
+  .bg-grid {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-image: linear-gradient(rgba(0,180,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,180,255,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none; z-index: 0;
+  }
+  .bg-glow1 { position: fixed; top: -200px; left: -200px; width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(0,180,255,0.08) 0%, transparent 70%); pointer-events: none; z-index: 0; animation: floatGlow 8s ease-in-out infinite; }
+  .bg-glow2 { position: fixed; bottom: -150px; right: -150px; width: 500px; height: 500px; border-radius: 50%; background: radial-gradient(circle, rgba(162,89,255,0.07) 0%, transparent 70%); pointer-events: none; z-index: 0; animation: floatGlow 10s ease-in-out infinite reverse; }
+  @keyframes floatGlow { 0%, 100% { transform: translate(0,0); } 50% { transform: translate(30px, 30px); } }
+  @keyframes pulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.5; transform:scale(0.7); } }
+  @keyframes fadeSlideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+  @keyframes bounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(8px); } }
+
+  nav { position: fixed; top: 0; left: 0; right: 0; height: 64px; background: rgba(5,10,20,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 48px; z-index: 1000; }
+  .nav-logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.2rem; letter-spacing: -0.5px; }
+  .nav-logo .logo-icon { width: 32px; height: 32px; background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple)); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1rem; }
+  .nav-logo .logo-text span { color: var(--accent-cyan); }
+  .nav-badge { background: linear-gradient(135deg, rgba(0,180,255,0.15), rgba(162,89,255,0.15)); border: 1px solid var(--border); border-radius: 20px; padding: 4px 16px; font-size: 0.75rem; color: var(--accent-cyan); letter-spacing: 1px; text-transform: uppercase; }
+
+  .slide { position: relative; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 90px 0 60px; z-index: 1; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 48px; width: 100%; }
+
+  #hero { background: linear-gradient(180deg, rgba(0,30,60,0.3) 0%, transparent 100%); text-align: center; }
+  .hero-eyebrow { display: inline-flex; align-items: center; gap: 8px; background: rgba(0,180,255,0.08); border: 1px solid rgba(0,180,255,0.2); border-radius: 100px; padding: 6px 18px; font-size: 0.8rem; color: var(--accent-cyan); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 28px; animation: fadeSlideUp 0.8s ease forwards; }
+  .hero-eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent-green); animation: pulse 2s ease-in-out infinite; }
+  .hero-title { font-size: clamp(3rem, 6vw, 5.5rem); font-weight: 900; line-height: 1.05; letter-spacing: -3px; margin-bottom: 20px; animation: fadeSlideUp 0.8s ease 0.1s both; }
+  .hero-title .gradient-text { background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-cyan) 40%, var(--accent-purple) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .hero-subtitle { font-size: 1.25rem; color: var(--text-secondary); max-width: 680px; margin: 0 auto 40px; line-height: 1.7; animation: fadeSlideUp 0.8s ease 0.2s both; }
+  .hero-tags { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-bottom: 48px; animation: fadeSlideUp 0.8s ease 0.3s both; }
+  .tag { background: rgba(0,180,255,0.06); border: 1px solid rgba(0,180,255,0.2); border-radius: 8px; padding: 8px 18px; font-size: 0.85rem; color: var(--accent-blue); font-weight: 500; }
+  .hero-stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; margin-top: 40px; animation: fadeSlideUp 0.8s ease 0.4s both; }
+  .hero-stat { background: rgba(13,27,42,0.8); border: 1px solid var(--border); border-radius: 16px; padding: 24px; transition: all 0.3s ease; }
+  .hero-stat:hover { border-color: var(--accent-blue); box-shadow: var(--glow-blue); transform: translateY(-3px); }
+  .hero-stat .number { font-size: 2.5rem; font-weight: 900; letter-spacing: -2px; background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; display: block; margin-bottom: 4px; }
+  .hero-stat .label { font-size: 0.85rem; color: var(--text-secondary); }
+
+  .section-header { text-align: center; margin-bottom: 56px; }
+  .section-tag { display: inline-block; background: rgba(0,180,255,0.08); border: 1px solid rgba(0,180,255,0.2); border-radius: 100px; padding: 5px 16px; font-size: 0.75rem; color: var(--accent-cyan); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 16px; }
+  .section-title { font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 16px; }
+  .section-subtitle { color: var(--text-secondary); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+
+  #architecture { background: rgba(0,10,30,0.4); }
+  .arch-flow { display: flex; align-items: stretch; gap: 0; position: relative; padding: 32px 0; }
+  .arch-node { flex: 1; background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 28px 20px; text-align: center; transition: all 0.3s ease; position: relative; cursor: pointer; }
+  .arch-node:hover { transform: scale(1.04); z-index: 2; }
+  .arch-node.blue:hover { border-color: var(--accent-blue); box-shadow: var(--glow-blue); }
+  .arch-node.green:hover { border-color: var(--accent-green); box-shadow: var(--glow-green); }
+  .arch-node.purple:hover { border-color: var(--accent-purple); box-shadow: var(--glow-purple); }
+  .arch-node.orange:hover { border-color: var(--accent-orange); box-shadow: 0 0 30px rgba(255,140,66,0.3); }
+  .arch-arrow { display: flex; align-items: center; justify-content: center; padding: 0 8px; color: var(--text-secondary); flex-shrink: 0; font-size: 1.2rem; }
+  .node-icon { font-size: 2rem; margin-bottom: 12px; display: block; }
+  .node-title { font-weight: 700; font-size: 0.9rem; margin-bottom: 6px; }
+  .node-desc { font-size: 0.75rem; color: var(--text-secondary); line-height: 1.5; }
+
+  .features-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
+  .feature-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 32px; transition: all 0.3s ease; position: relative; overflow: hidden; }
+  .feature-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple)); transform: scaleX(0); transform-origin: left; transition: transform 0.3s ease; }
+  .feature-card:hover { transform: translateY(-6px); border-color: rgba(0,180,255,0.3); }
+  .feature-card:hover::before { transform: scaleX(1); }
+  .feature-icon { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 20px; }
+  .feature-icon.blue { background: rgba(0,180,255,0.1); }
+  .feature-icon.green { background: rgba(0,255,157,0.1); }
+  .feature-icon.purple { background: rgba(162,89,255,0.1); }
+  .feature-icon.orange { background: rgba(255,140,66,0.1); }
+  .feature-icon.cyan { background: rgba(0,229,255,0.1); }
+  .feature-icon.red { background: rgba(255,71,87,0.1); }
+  .feature-title { font-weight: 700; font-size: 1.05rem; margin-bottom: 10px; }
+  .feature-desc { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; }
+
+  #demo { background: rgba(5,15,30,0.5); }
+  .dashboard-mockup { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; box-shadow: 0 40px 100px rgba(0,0,0,0.5), var(--glow-blue); }
+  .mockup-titlebar { background: rgba(0,0,0,0.4); padding: 14px 20px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--border); }
+  .dot-red { width:12px; height:12px; border-radius:50%; background:#ff5f57; }
+  .dot-yellow { width:12px; height:12px; border-radius:50%; background:#febc2e; }
+  .dot-green2 { width:12px; height:12px; border-radius:50%; background:#28c840; }
+  .mockup-url { flex: 1; text-align: center; background: rgba(255,255,255,0.05); border-radius: 8px; padding: 4px 12px; font-size: 0.8rem; color: var(--text-secondary); font-family: 'JetBrains Mono', monospace; }
+  .dashboard-body { padding: 24px; }
+  .metrics-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: 24px; }
+  .metric-card { background: var(--bg-card2); border: 1px solid var(--border); border-radius: 14px; padding: 18px; transition: all 0.3s ease; }
+  .metric-card:hover { border-color: var(--accent-blue); box-shadow: var(--glow-blue); }
+  .metric-value { font-size: 2rem; font-weight: 900; letter-spacing: -1px; }
+  .metric-value.blue { color: var(--accent-blue); }
+  .metric-value.green { color: var(--accent-green); }
+  .metric-value.orange { color: var(--accent-orange); }
+  .metric-value.purple { color: var(--accent-purple); }
+  .metric-label { font-size: 0.78rem; color: var(--text-secondary); margin-top: 4px; }
+  .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
+  .chart-card { background: var(--bg-card2); border: 1px solid var(--border); border-radius: 14px; padding: 20px; }
+  .chart-title { font-weight: 600; font-size: 0.9rem; margin-bottom: 16px; color: var(--accent-cyan); }
+  .bar-chart { display: flex; flex-direction: column; gap: 10px; }
+  .bar-row { display: flex; align-items: center; gap: 10px; }
+  .bar-label { font-size: 0.75rem; color: var(--text-secondary); width: 70px; text-align: right; flex-shrink: 0; }
+  .bar-track { flex: 1; height: 8px; background: rgba(255,255,255,0.06); border-radius: 100px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 100px; transition: width 1.5s cubic-bezier(0.4,0,0.2,1); }
+  .bar-fill.vlan { background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan)); width: 80%; }
+  .bar-fill.routing { background: linear-gradient(90deg, var(--accent-green), #00ff9d); width: 70%; }
+  .bar-fill.dhcp { background: linear-gradient(90deg, var(--accent-purple), var(--accent-blue)); width: 65%; }
+  .bar-fill.dns { background: linear-gradient(90deg, var(--accent-orange), #ffb347); width: 50%; }
+  .bar-fill.acl { background: linear-gradient(90deg, var(--accent-red), #ff6b81); width: 40%; }
+  .bar-fill.nat { background: linear-gradient(90deg, var(--accent-cyan), var(--accent-green)); width: 55%; }
+  .bar-count { font-size: 0.75rem; color: var(--text-secondary); width: 20px; }
+  .donut-wrapper { display: flex; align-items: center; gap: 24px; }
+  .donut-chart { width: 110px; height: 110px; flex-shrink: 0; background: conic-gradient(var(--accent-green) 0% 68%, var(--accent-orange) 68% 87%, var(--accent-red) 87% 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; }
+  .donut-chart::after { content: ''; position: absolute; width: 68px; height: 68px; background: var(--bg-card2); border-radius: 50%; }
+  .donut-legend { display: flex; flex-direction: column; gap: 10px; }
+  .legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .case-detail { background: var(--bg-card2); border: 1px solid var(--border); border-radius: 14px; padding: 20px; margin-top: 24px; }
+  .case-select { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
+  .case-label { font-size: 0.85rem; color: var(--text-secondary); }
+  .case-id-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+  .case-pill { background: rgba(0,180,255,0.08); border: 1px solid rgba(0,180,255,0.2); border-radius: 8px; padding: 5px 12px; font-size: 0.78rem; color: var(--accent-blue); cursor: pointer; transition: all 0.2s ease; font-family: 'JetBrains Mono', monospace; }
+  .case-pill.active, .case-pill:hover { background: var(--accent-blue); color: #fff; border-color: var(--accent-blue); }
+  .case-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .col-header { font-size: 0.8rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 14px; }
+  .col-header.blue { color: var(--accent-blue); }
+  .col-header.green { color: var(--accent-green); }
+  .evidence-item { margin-bottom: 14px; }
+  .ev-label { font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 5px; font-weight: 600; }
+  .ev-value { font-size: 0.85rem; color: var(--text-primary); }
+  .code-block { background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; padding: 14px; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; line-height: 1.8; color: #c8d8e8; margin-top: 8px; }
+  .code-highlight { color: var(--accent-red); font-weight: 600; }
+  .diagnosis-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(0,255,157,0.08); border: 1px solid rgba(0,255,157,0.2); border-radius: 10px; padding: 12px 16px; margin-bottom: 14px; width: 100%; }
+  .diag-icon { font-size: 1.2rem; }
+  .diag-text { font-size: 0.85rem; color: var(--accent-green); line-height: 1.5; }
+  .confidence-bar-wrap { margin-bottom: 14px; }
+  .conf-label { font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 6px; }
+  .conf-track { height: 6px; background: rgba(255,255,255,0.06); border-radius: 100px; overflow: hidden; }
+  .conf-fill { height: 100%; background: linear-gradient(90deg, var(--accent-green), var(--accent-cyan)); border-radius: 100px; width: 92%; }
+  .fix-commands { background: rgba(0,0,0,0.4); border-radius: 10px; padding: 14px; margin-bottom: 14px; }
+  .fix-title { font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 8px; font-weight: 600; }
+  .fix-cmd { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--accent-cyan); line-height: 2; }
+  .human-review { background: rgba(0,255,157,0.04); border: 1px solid rgba(0,255,157,0.15); border-radius: 10px; padding: 14px; }
+  .review-status { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 0.9rem; color: var(--accent-green); margin-bottom: 8px; }
+  .review-note { font-size: 0.8rem; color: var(--text-secondary); }
+
+  #rai { background: rgba(10,5,30,0.4); }
+  .rai-table { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+  .rai-table table { width: 100%; border-collapse: collapse; }
+  .rai-table th { padding: 14px 20px; text-align: left; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); font-weight: 600; background: rgba(0,0,0,0.3); border-bottom: 1px solid var(--border); }
+  .rai-table td { padding: 14px 20px; font-size: 0.85rem; border-bottom: 1px solid rgba(255,255,255,0.04); vertical-align: top; }
+  .rai-table tr:last-child td { border-bottom: none; }
+  .rai-table tr:hover td { background: rgba(0,180,255,0.03); }
+  .badge { display: inline-block; padding: 3px 10px; border-radius: 6px; font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+  .badge.accepted { background: rgba(0,255,157,0.12); color: var(--accent-green); }
+  .badge.edited { background: rgba(255,140,66,0.12); color: var(--accent-orange); }
+  .badge.rejected { background: rgba(255,71,87,0.12); color: var(--accent-red); }
+
+  #rules { background: rgba(5,20,10,0.3); }
+  .rule-terminal { background: #010b05; border: 1px solid rgba(0,255,157,0.15); border-radius: 16px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.4), var(--glow-green); }
+  .term-header { background: rgba(0,0,0,0.5); padding: 12px 20px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid rgba(0,255,157,0.1); }
+  .term-title { font-size: 0.8rem; color: var(--text-secondary); flex: 1; text-align: center; font-family: 'JetBrains Mono', monospace; }
+  .term-body { padding: 24px; font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; line-height: 2; }
+  .term-prompt { color: var(--accent-green); }
+  .term-cmd { color: var(--text-primary); }
+  .term-output { color: var(--text-secondary); padding-left: 16px; display: block; }
+  .term-ok { color: var(--accent-green); }
+  .term-warn { color: var(--accent-orange); }
+  .term-err { color: var(--accent-red); }
+  .term-info { color: var(--accent-cyan); }
+  .term-key { color: var(--accent-purple); }
+  .term-cursor { display: inline-block; width: 8px; height: 16px; background: var(--accent-green); vertical-align: middle; animation: blink 1s step-end infinite; margin-left: 2px; }
+
+  #conclusion { background: linear-gradient(180deg, transparent 0%, rgba(0,30,60,0.3) 100%); text-align: center; }
+  .conclusion-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; margin-top: 48px; margin-bottom: 48px; }
+  .conc-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 32px 24px; transition: all 0.3s ease; }
+  .conc-card:hover { transform: translateY(-4px); border-color: rgba(0,180,255,0.3); box-shadow: var(--glow-blue); }
+  .conc-icon { font-size: 2.5rem; display: block; margin-bottom: 16px; }
+  .conc-title { font-weight: 700; font-size: 1.05rem; margin-bottom: 10px; }
+  .conc-text { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; }
+  .team-grid { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; }
+  .team-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 28px 36px; min-width: 260px; transition: all 0.3s ease; text-align: left; }
+  .team-card:hover { border-color: rgba(0,180,255,0.3); box-shadow: var(--glow-blue); }
+  .team-avatar { width: 52px; height: 52px; border-radius: 16px; background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple)); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; margin-bottom: 14px; }
+  .team-name { font-weight: 700; font-size: 1rem; margin-bottom: 4px; }
+  .team-role { font-size: 0.8rem; color: var(--accent-cyan); margin-bottom: 12px; }
+  .team-contrib { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.7; }
+  .cisco-badge { display: inline-flex; align-items: center; gap: 10px; background: rgba(0,188,255,0.06); border: 1px solid rgba(0,188,255,0.2); border-radius: 100px; padding: 10px 24px; font-size: 0.9rem; color: var(--accent-cyan); margin-top: 48px; }
+  .scroll-indicator { position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; color: var(--text-secondary); font-size: 0.75rem; animation: bounce 2s ease-in-out infinite; }
+  .section-divider { height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); margin: 0 48px; }
+  footer { background: rgba(0,0,0,0.4); border-top: 1px solid var(--border); padding: 24px 48px; display: flex; align-items: center; justify-content: space-between; font-size: 0.8rem; color: var(--text-secondary); position: relative; z-index: 1; }
+  footer strong { color: var(--accent-cyan); }
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="bg-glow1"></div>
+<div class="bg-glow2"></div>
+
+<nav>
+  <div class="nav-logo">
+    <div class="logo-icon">🔮</div>
+    <div class="logo-text">Net<span>Sage</span> AI</div>
+  </div>
+  <div class="nav-badge">Cisco AICTE VIP 2026</div>
+</nav>
+
+<!-- HERO -->
+<section id="hero" class="slide">
+  <div class="container">
+    <div style="display:flex;flex-direction:column;align-items:center;">
+      <div class="hero-eyebrow"><span class="dot"></span>AI-Assisted Network Troubleshooting System</div>
+      <h1 class="hero-title"><span class="gradient-text">NetSage AI</span><br/>Intelligent Network<br/>Diagnostics</h1>
+      <p class="hero-subtitle">A hybrid AI-powered engine that combines Google Gemini's reasoning with deterministic rule validation and human-in-the-loop oversight to resolve Cisco network faults at speed.</p>
+      <div class="hero-tags">
+        <span class="tag">🧠 Google Gemini AI</span>
+        <span class="tag">⚡ FastAPI Backend</span>
+        <span class="tag">🛡️ Deterministic Rules</span>
+        <span class="tag">👤 Human-in-the-Loop</span>
+        <span class="tag">📊 Streamlit Dashboard</span>
+        <span class="tag">🔒 Responsible AI</span>
+      </div>
+      <div class="hero-stats" style="width:100%;">
+        <div class="hero-stat"><span class="number">30</span><span class="label">Troubleshooting Scenarios</span></div>
+        <div class="hero-stat"><span class="number">8</span><span class="label">Network Concept Areas</span></div>
+        <div class="hero-stat"><span class="number">92%</span><span class="label">AI Diagnosis Confidence</span></div>
+        <div class="hero-stat"><span class="number">100%</span><span class="label">Human Review Coverage</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-indicator"><span>Scroll to explore</span><span>↓</span></div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ARCHITECTURE -->
+<section id="architecture" class="slide">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">System Design</div>
+      <h2 class="section-title">Hybrid AI Architecture</h2>
+      <p class="section-subtitle">A modular, five-layer pipeline that ensures reliable, safe, and auditable network fault diagnosis.</p>
+    </div>
+    <div class="arch-flow">
+      <div class="arch-node blue"><span class="node-icon">🖥️</span><div class="node-title">Streamlit Dashboard</div><div class="node-desc">Interactive UI for case exploration, AI results, and Responsible AI audit logs</div></div>
+      <div class="arch-arrow">→</div>
+      <div class="arch-node orange"><span class="node-icon">⚡</span><div class="node-title">FastAPI Backend</div><div class="node-desc">High-performance REST API that orchestrates diagnosis requests with Pydantic validation</div></div>
+      <div class="arch-arrow">→</div>
+      <div class="arch-node green"><span class="node-icon">🛡️</span><div class="node-title">Rule Checker</div><div class="node-desc">Regex-based deterministic pre-screening catches obvious misconfigs with zero hallucination</div></div>
+      <div class="arch-arrow">→</div>
+      <div class="arch-node purple"><span class="node-icon">🧠</span><div class="node-title">Gemini AI Engine</div><div class="node-desc">Evidence-grounded Gemini analysis with structured JSON output and confidence scoring</div></div>
+      <div class="arch-arrow">→</div>
+      <div class="arch-node blue"><span class="node-icon">👤</span><div class="node-title">Human Review + RAI Log</div><div class="node-desc">Operator Accept / Edit / Reject workflow. Every action audited in Responsible AI log</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- FEATURES -->
+<section id="features" class="slide">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">Capabilities</div>
+      <h2 class="section-title">Key Features</h2>
+      <p class="section-subtitle">Comprehensive coverage across all major enterprise networking domains.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card"><div class="feature-icon blue">🔍</div><div class="feature-title">VLAN Troubleshooting</div><div class="feature-desc">Detects misconfigured VLAN assignments, trunk port failures, and VLAN mismatch between switchports using <code style="color:var(--accent-cyan)">show vlan brief</code> output analysis.</div></div>
+      <div class="feature-card"><div class="feature-icon green">🛣️</div><div class="feature-title">Routing Analysis</div><div class="feature-desc">Identifies missing static routes, RIP/OSPF convergence failures, and next-hop unreachability from routing table CLI evidence.</div></div>
+      <div class="feature-card"><div class="feature-icon purple">📡</div><div class="feature-title">DHCP Validation</div><div class="feature-desc">Diagnoses DHCP pool exhaustion, helper-address misconfiguration, and excluded address conflicts causing IP assignment failures.</div></div>
+      <div class="feature-card"><div class="feature-icon orange">🌐</div><div class="feature-title">DNS &amp; Gateway Detection</div><div class="feature-desc">Validates DNS server reachability and pinpoints default gateway mismatches causing host isolation from the network.</div></div>
+      <div class="feature-card"><div class="feature-icon cyan">🔒</div><div class="feature-title">ACL Validation</div><div class="feature-desc">Parses Access Control List rules to detect permit/deny order issues and blocked traffic flows from <code style="color:var(--accent-cyan)">show access-lists</code> output.</div></div>
+      <div class="feature-card"><div class="feature-icon red">🔄</div><div class="feature-title">NAT Troubleshooting</div><div class="feature-desc">Identifies NAT pool misconfigurations, inside/outside interface errors, and translation table issues blocking internet access.</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- RULE CHECKER -->
+<section id="rules" class="slide">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">Step 1 of 3</div>
+      <h2 class="section-title">Deterministic Rule Checker</h2>
+      <p class="section-subtitle">Before calling the AI, a zero-hallucination regex engine statically validates CLI evidence for obvious faults.</p>
+    </div>
+    <div class="rule-terminal">
+      <div class="term-header">
+        <div class="dot-red"></div><div class="dot-yellow"></div><div class="dot-green2"></div>
+        <div class="term-title">Terminal — NetSage AI Rule Checker</div>
+      </div>
+      <div class="term-body">
+        <span style="color:var(--accent-green);">(venv) PS NetSage-AI&gt;</span> <span style="color:var(--text-primary);">python rule_checker.py --csv data/cases/cases.csv --case_id VLAN-001</span>
+        <br/><br/>
+        <span class="term-output term-info">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>
+        <span class="term-output term-info">   NetSage AI — Deterministic Rule Checker v1.0</span>
+        <span class="term-output term-info">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>
+        <br/>
+        <span class="term-output">  <span class="term-key">Case ID  :</span> VLAN-001</span>
+        <span class="term-output">  <span class="term-key">Concept  :</span> VLAN</span>
+        <span class="term-output">  <span class="term-key">Severity :</span> <span class="term-err">High</span></span>
+        <span class="term-output">  <span class="term-key">Symptom  :</span> PC1 and PC2 cannot ping. Both should be in VLAN 10.</span>
+        <br/>
+        <span class="term-output term-info">[*] Running rule checks on show_command_outputs...</span>
+        <br/>
+        <span class="term-output term-ok">  [✓] RULE_001 — Duplicate IP check         : PASS</span>
+        <span class="term-output term-ok">  [✓] RULE_002 — Interface status check      : PASS (interfaces UP)</span>
+        <span class="term-output term-err">  [✗] RULE_003 — VLAN assignment check       : FAIL</span>
+        <span class="term-output term-warn">        → FastEthernet0/2 found in VLAN 1 (expected VLAN 10)</span>
+        <span class="term-output term-ok">  [✓] RULE_004 — Trunk encapsulation         : PASS</span>
+        <span class="term-output">  [–] RULE_005 — Subnet mask consistency     : NOT_DETERMINED</span>
+        <br/>
+        <span class="term-output term-warn">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>
+        <span class="term-output term-warn">   RULE RESULT: MISCONFIGURATION DETECTED</span>
+        <span class="term-output term-warn">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>
+        <span class="term-output">  <span class="term-key">Finding  :</span> Fa0/2 assigned to VLAN 1 instead of VLAN 10</span>
+        <span class="term-output">  <span class="term-key">Action   :</span> Escalating to Gemini AI for full diagnosis...</span>
+        <br/>
+        <span class="term-output term-ok">[✓] Pre-screening complete. AI diagnosis initiated.<span class="term-cursor"></span></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- DASHBOARD DEMO -->
+<section id="demo" class="slide">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">Step 2 of 3</div>
+      <h2 class="section-title">AI Diagnosis Dashboard</h2>
+      <p class="section-subtitle">The Streamlit dashboard provides real-time case exploration, AI-generated diagnoses, and actionable fix commands.</p>
+    </div>
+    <div class="dashboard-mockup">
+      <div class="mockup-titlebar">
+        <div class="dot-red"></div><div class="dot-yellow"></div><div class="dot-green2"></div>
+        <div class="mockup-url">localhost:8501 — NetSage AI Troubleshooting Dashboard</div>
+      </div>
+      <div class="dashboard-body">
+        <div style="margin-bottom:20px;">
+          <div style="font-weight:800;font-size:1.4rem;margin-bottom:4px;">🔮 NetSage AI Troubleshooting Dashboard</div>
+          <div style="font-size:0.85rem;color:var(--text-secondary);">An AI-driven network diagnostic tool with deterministic rule checking and human-in-the-loop review.</div>
+        </div>
+        <div style="font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-secondary);margin-bottom:12px;">Overview Metrics</div>
+        <div class="metrics-row">
+          <div class="metric-card"><div class="metric-value blue">30</div><div class="metric-label">Total Cases</div></div>
+          <div class="metric-card"><div class="metric-value purple">8</div><div class="metric-label">Concept Areas</div></div>
+          <div class="metric-card"><div class="metric-value orange">12</div><div class="metric-label">High Severity Issues</div></div>
+          <div class="metric-card"><div class="metric-value green">21 / 30</div><div class="metric-label">AI Accuracy (Accepted)</div></div>
+        </div>
+        <div class="charts-row">
+          <div class="chart-card">
+            <div class="chart-title">Issue Types (Concepts)</div>
+            <div class="bar-chart">
+              <div class="bar-row"><span class="bar-label">VLAN</span><div class="bar-track"><div class="bar-fill vlan"></div></div><span class="bar-count">8</span></div>
+              <div class="bar-row"><span class="bar-label">Routing</span><div class="bar-track"><div class="bar-fill routing"></div></div><span class="bar-count">7</span></div>
+              <div class="bar-row"><span class="bar-label">DHCP</span><div class="bar-track"><div class="bar-fill dhcp"></div></div><span class="bar-count">5</span></div>
+              <div class="bar-row"><span class="bar-label">DNS</span><div class="bar-track"><div class="bar-fill dns"></div></div><span class="bar-count">4</span></div>
+              <div class="bar-row"><span class="bar-label">NAT</span><div class="bar-track"><div class="bar-fill nat"></div></div><span class="bar-count">3</span></div>
+              <div class="bar-row"><span class="bar-label">ACL</span><div class="bar-track"><div class="bar-fill acl"></div></div><span class="bar-count">3</span></div>
+            </div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-title">Human Review Decisions</div>
+            <div class="donut-wrapper">
+              <div class="donut-chart"></div>
+              <div class="donut-legend">
+                <div class="legend-item"><div class="legend-dot" style="background:var(--accent-green)"></div><span>Accepted – 21 (70%)</span></div>
+                <div class="legend-item"><div class="legend-dot" style="background:var(--accent-orange)"></div><span>Edited – 6 (20%)</span></div>
+                <div class="legend-item"><div class="legend-dot" style="background:var(--accent-red)"></div><span>Rejected – 3 (10%)</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="case-detail">
+          <div style="font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-secondary);margin-bottom:16px;">Case Detail Explorer</div>
+          <div class="case-select">
+            <span class="case-label">Select Case ID:</span>
+            <div class="case-id-pills">
+              <span class="case-pill active">VLAN-001</span>
+              <span class="case-pill">DHCP-003</span>
+              <span class="case-pill">GW-001</span>
+              <span class="case-pill">ACL-002</span>
+              <span class="case-pill">NAT-001</span>
+              <span class="case-pill">ROUTE-005</span>
+            </div>
+          </div>
+          <div style="font-weight:700;font-size:1rem;margin-bottom:16px;color:var(--accent-cyan);">Case: VLAN-001 — High Severity</div>
+          <div class="case-columns">
+            <div>
+              <div class="col-header blue">1. Evidence</div>
+              <div class="evidence-item">
+                <div class="ev-label">Symptom</div>
+                <div class="ev-value">PC1 and PC2 cannot ping each other. Both should be in VLAN 10, but connectivity is broken.</div>
+              </div>
+              <div class="evidence-item">
+                <div class="ev-label">Topology</div>
+                <div class="ev-value">2-switch topology. PC1 on Fa0/1, PC2 on Fa0/2</div>
+              </div>
+              <div class="evidence-item">
+                <div class="ev-label">show vlan brief output</div>
+                <div class="code-block">VLAN  Name       Status    Ports<br/>---- ----------  --------- ------<br/>1     default    active    <span class="code-highlight">Fa0/2</span><br/><span class="code-highlight">← PC2 stuck in VLAN 1!</span><br/>10    SALES      active    Fa0/1<br/>1002  fddi-...   act/unsup</div>
+              </div>
+            </div>
+            <div>
+              <div class="col-header green">2. AI Diagnosis + Human Review</div>
+              <div class="diagnosis-badge">
+                <span class="diag-icon">🔍</span>
+                <div class="diag-text"><strong>Root Cause:</strong> FastEthernet0/2 is assigned to VLAN 1 (default) instead of VLAN 10. PC2 is isolated from PC1 which is correctly in VLAN 10.</div>
+              </div>
+              <div class="confidence-bar-wrap">
+                <div class="conf-label">AI Confidence Score: 92%</div>
+                <div class="conf-track"><div class="conf-fill"></div></div>
+              </div>
+              <div class="fix-commands">
+                <div class="fix-title">🔧 Suggested Fix Commands</div>
+                <div class="fix-cmd">SW1# configure terminal<br/>SW1(config)# interface FastEthernet0/2<br/>SW1(config-if)# switchport mode access<br/>SW1(config-if)# switchport access vlan 10<br/>SW1(config-if)# end<br/>SW1# show vlan brief</div>
+              </div>
+              <div class="human-review">
+                <div class="review-status">✅ Human Decision: Accepted</div>
+                <div class="review-note">Operator validated AI diagnosis. Fix applied. PC1 ↔ PC2 connectivity restored. Logged in RAI audit trail.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- RESPONSIBLE AI LOG -->
+<section id="rai" class="slide">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">Step 3 of 3</div>
+      <h2 class="section-title">Responsible AI Audit Log</h2>
+      <p class="section-subtitle">Every AI diagnosis and human review decision is securely recorded. Transparency and accountability at every step.</p>
+    </div>
+    <div class="rai-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Case ID</th><th>Concept</th><th>AI Diagnosis</th><th>Confidence</th><th>Human Decision</th><th>Reason / Correction</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code style="color:var(--accent-cyan);font-family:'JetBrains Mono',monospace;font-size:0.8rem;">VLAN-001</code></td>
+            <td>VLAN</td><td>Fa0/2 in VLAN 1 instead of VLAN 10</td>
+            <td><span style="color:var(--accent-green);font-weight:700;">92%</span></td>
+            <td><span class="badge accepted">Accepted</span></td>
+            <td style="font-size:0.8rem;color:var(--text-secondary);">Operator confirmed. Fix applied.</td>
+          </tr>
+          <tr>
+            <td><code style="color:var(--accent-cyan);font-family:'JetBrains Mono',monospace;font-size:0.8rem;">DHCP-003</code></td>
+            <td>DHCP</td><td>DHCP pool exhausted, 0 addresses available</td>
+            <td><span style="color:var(--accent-green);font-weight:700;">88%</span></td>
+            <td><span class="badge edited">Edited</span></td>
+            <td style="font-size:0.8rem;color:var(--text-secondary);">AI missed helper-address on Gi0/0. Human corrected.</td>
+          </tr>
+          <tr>
+            <td><code style="color:var(--accent-cyan);font-family:'JetBrains Mono',monospace;font-size:0.8rem;">GW-001</code></td>
+            <td>Gateway</td><td>Default gateway 192.168.1.1 unreachable — subnet mismatch</td>
+            <td><span style="color:var(--accent-green);font-weight:700;">95%</span></td>
+            <td><span class="badge accepted">Accepted</span></td>
+            <td style="font-size:0.8rem;color:var(--text-secondary);">Correct diagnosis. Subnet mask corrected.</td>
+          </tr>
+          <tr>
+            <td><code style="color:var(--accent-cyan);font-family:'JetBrains Mono',monospace;font-size:0.8rem;">ACL-002</code></td>
+            <td>ACL</td><td>Permit/deny order incorrect, blocking HTTP</td>
+            <td><span style="color:var(--accent-orange);font-weight:700;">74%</span></td>
+            <td><span class="badge rejected">Rejected</span></td>
+            <td style="font-size:0.8rem;color:var(--text-secondary);">AI identified wrong ACL line. Human corrected.</td>
+          </tr>
+          <tr>
+            <td><code style="color:var(--accent-cyan);font-family:'JetBrains Mono',monospace;font-size:0.8rem;">NAT-001</code></td>
+            <td>NAT</td><td>NAT inside interface not configured on Gi0/1</td>
+            <td><span style="color:var(--accent-green);font-weight:700;">89%</span></td>
+            <td><span class="badge accepted">Accepted</span></td>
+            <td style="font-size:0.8rem;color:var(--text-secondary);">Confirmed. ip nat inside added. Internet restored.</td>
+          </tr>
+          <tr>
+            <td><code style="color:var(--accent-cyan);font-family:'JetBrains Mono',monospace;font-size:0.8rem;">ROUTE-005</code></td>
+            <td>Routing</td><td>Missing static route to 10.0.2.0/24 network</td>
+            <td><span style="color:var(--accent-green);font-weight:700;">91%</span></td>
+            <td><span class="badge accepted">Accepted</span></td>
+            <td style="font-size:0.8rem;color:var(--text-secondary);">Route added. End-to-end ping successful.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:32px;">
+      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:20px;display:flex;gap:16px;align-items:center;">
+        <div style="font-size:2rem;">🔒</div>
+        <div><div style="font-weight:700;font-size:0.95rem;margin-bottom:4px;">AI is Advisory Only</div><div style="font-size:0.8rem;color:var(--text-secondary);">No fix is applied without explicit human sign-off. Operator must Accept, Edit, or Reject every diagnosis.</div></div>
+      </div>
+      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:20px;display:flex;gap:16px;align-items:center;">
+        <div style="font-size:2rem;">📋</div>
+        <div><div style="font-weight:700;font-size:0.95rem;margin-bottom:4px;">Full Audit Trail</div><div style="font-size:0.8rem;color:var(--text-secondary);">Every interaction is logged to <code style="color:var(--accent-cyan);">responsible_ai_log.csv</code> with timestamps.</div></div>
+      </div>
+      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:20px;display:flex;gap:16px;align-items:center;">
+        <div style="font-size:2rem;">⚠️</div>
+        <div><div style="font-weight:700;font-size:0.95rem;margin-bottom:4px;">Uncertainty Surfacing</div><div style="font-size:0.8rem;color:var(--text-secondary);">Low-confidence scores and "Insufficient Evidence" flags are explicitly surfaced in the dashboard.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- CONCLUSION -->
+<section id="conclusion" class="slide">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">Summary</div>
+      <h2 class="section-title">Why NetSage AI Works</h2>
+      <p class="section-subtitle">A responsible, production-grade approach to AI-assisted network operations.</p>
+    </div>
+    <div class="conclusion-cards">
+      <div class="conc-card"><span class="conc-icon">🧠</span><div class="conc-title">AI-Powered Accuracy</div><div class="conc-text">Google Gemini processes complex, multi-variable CLI evidence that no static rule could handle — achieving 88–95% confidence on real Cisco scenarios.</div></div>
+      <div class="conc-card"><span class="conc-icon">🛡️</span><div class="conc-title">Zero-Hallucination Safety Net</div><div class="conc-text">The deterministic rule checker pre-screens every case with pattern matching, catching obvious faults before the AI is invoked — eliminating hallucination risk on simple errors.</div></div>
+      <div class="conc-card"><span class="conc-icon">👤</span><div class="conc-title">Human-in-the-Loop Governance</div><div class="conc-text">No configuration change is ever made without operator approval. The full HITL workflow and Responsible AI audit log ensure accountability at every step.</div></div>
+    </div>
+    <div style="margin-top:48px;">
+      <div style="font-weight:700;font-size:1.1rem;margin-bottom:24px;color:var(--text-secondary);">— Team Members —</div>
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="team-avatar">👨‍💻</div>
+          <div class="team-name">Ujjwal Pandey</div>
+          <div class="team-role">System Architect &amp; AI Engineer</div>
+          <div class="team-contrib">✦ System Architecture &amp; Design<br/>✦ AI Integration &amp; Prompt Engineering<br/>✦ FastAPI Backend Development<br/>✦ Deterministic Rule Validation<br/>✦ Dashboard &amp; RAI Implementation</div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">👨‍🔧</div>
+          <div class="team-name">Udit Raghuwanshi</div>
+          <div class="team-role">Network Validation &amp; QA Engineer</div>
+          <div class="team-contrib">✦ Network Validation &amp; Verification<br/>✦ Packet Tracer Simulation<br/>✦ Functional Testing &amp; QA<br/>✦ Documentation Support<br/>✦ Submission Preparation</div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:48px;">
+      <div class="cisco-badge">🏅 Cisco AICTE Virtual Internship Program 2026 — Networking Track</div>
+      <div style="margin-top:16px;font-size:0.85rem;color:var(--text-secondary);">LNCT Bhopal &nbsp;•&nbsp; Computer Science &amp; Engineering &nbsp;•&nbsp; 2nd Year</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div>© 2026 NetSage AI — Cisco AICTE VIP, Networking Track</div>
+  <div>Built with <strong>Google Gemini</strong> + FastAPI + Streamlit</div>
+  <div>Ujjwal Pandey &amp; Udit Raghuwanshi</div>
+</footer>
+
+<script>
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.feature-card, .arch-node, .conc-card, .team-card, .metric-card').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(20px)';
+  el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+  revealObserver.observe(el);
+});
+
+document.querySelectorAll('.case-pill').forEach(pill => {
+  pill.addEventListener('click', () => {
+    document.querySelectorAll('.case-pill').forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>

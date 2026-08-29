@@ -104,16 +104,36 @@ Responsible AI Log
 
 ## Screenshots & Demo
 
-### Dashboard Screenshots
+### Dashboard Screenshots (Original)
 ![VLAN-001 Diagnosis](assets/vlan_001_diagnosis_1787999882326.png)
-
-### API Testing & Human Review Workflow
 ![GW-001 Diagnosis](assets/gw_001_diagnosis_1787999913997.png)
 ![DHCP-003 Diagnosis](assets/dhcp_003_diagnosis_1787999952469.png)
 
+### Professional Demo Screenshots
+| Section | Preview |
+|---------|---------|
+| Hero & Stats | ![Hero](assets/demo_hero.png) |
+| Architecture Pipeline | ![Architecture](assets/demo_architecture.png) |
+| Key Features | ![Features](assets/demo_features.png) |
+| Rule Checker Terminal | ![Rule Checker](assets/demo_rule_checker.png) |
+| AI Dashboard | ![Dashboard](assets/demo_dashboard.png) |
+| Responsible AI Log | ![RAI Log](assets/demo_rai_log.png) |
+| Conclusion & Team | ![Conclusion](assets/demo_conclusion.png) |
+
 ### Demo Video
-You can view a full interactive demonstration of the dashboard running against the test cases in the video file below:
-![netsage_dashboard_demo.gif](assets/netsage_dashboard_demo.gif)
+A professional demo video showcasing all features of NetSage AI is available in the `demo/` directory:
+
+- **📹 MP4 Video** (downloadable, 1280×720, ~41 seconds): [`demo/NetSage_AI_Demo.mp4`](demo/NetSage_AI_Demo.mp4)
+- **🌐 Interactive HTML Presentation**: [`demo/netsage_demo.html`](demo/netsage_demo.html)
+
+The demo video covers:
+1. **Hero Overview** — Project stats (30 cases, 8 domains, 92% confidence, 100% HITL)
+2. **Hybrid AI Architecture** — 5-layer pipeline diagram
+3. **Key Features** — VLAN, Routing, DHCP, DNS, ACL, NAT coverage
+4. **Deterministic Rule Checker** — Terminal walkthrough of VLAN-001 pre-screening
+5. **AI Diagnosis Dashboard** — Full Streamlit mockup with case explorer
+6. **Responsible AI Audit Log** — Accept/Edit/Reject governance workflow
+7. **Conclusion & Team** — Summary and contributor cards
 
 ## Project Documentation
 
